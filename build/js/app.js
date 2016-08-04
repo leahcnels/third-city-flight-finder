@@ -35,7 +35,7 @@ Trip.prototype.compareTrips = function() {
     for (j=0; j<allTrips[1].tripResults.length; j++) {
       if (allTrips[0].tripResults[i].destination === allTrips[1].tripResults[j].destination) {
         var averagePrice = ((parseInt(allTrips[0].tripResults[i].price) + parseInt(allTrips[1].tripResults[j].price)) / 2);
-        $("#compare").append('<li>$' + parseInt(averagePrice) + " " + allTrips[0].tripResults[i].destination + '</li>');
+        $("#compare").append('<li>$' + parseInt(averagePrice) + " " + allTrips[0].tripResults[i].destination + " " + '</li>');
       }
     }
   }
@@ -50,8 +50,8 @@ var apiKey = require('./../.env').apiKey;
 $(function() {
   $('#submit-trip').submit(function(event) {
     event.preventDefault();
-    $("#tripOneList").empty();
-    $("#tripTwoList").empty();
+    $("#tripList").empty();
+    $("#compare").empty();
     var tripOneOrigin = $('#tripOneOrigin').val();
     var tripTwoOrigin = $('#tripTwoOrigin').val();
     var departureDate = $('#departureDate').val();

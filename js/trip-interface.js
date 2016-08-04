@@ -4,8 +4,8 @@ var apiKey = require('./../.env').apiKey;
 $(function() {
   $('#submit-trip').submit(function(event) {
     event.preventDefault();
-    $("#tripOneList").empty();
-    $("#tripTwoList").empty();
+    $("#tripList").empty();
+    $("#compare").empty();
     var tripOneOrigin = $('#tripOneOrigin').val();
     var tripTwoOrigin = $('#tripTwoOrigin').val();
     var departureDate = $('#departureDate').val();
