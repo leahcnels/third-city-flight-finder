@@ -21,7 +21,7 @@ Trip.prototype.getTrips = function(origin, departureDate) {
 Trip.prototype.listTrips = function() {
   var self = this;
   this.tripResults.forEach(function(trip) {
-    $("#tripList").prepend('<li>' + self.origin + " to " + trip.destination + " $" + trip.price + '</li>');
+    $("#tripList").append('<li>' + self.origin + " to " + trip.destination + " $" + trip.price + '</li>');
   });
   this.compareTrips();
 };

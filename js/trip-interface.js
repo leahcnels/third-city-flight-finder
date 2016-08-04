@@ -1,7 +1,6 @@
 var Trip = require('./../js/trip.js').tripModule;
 var apiKey = require('./../.env').apiKey;
 
-pricesArray = [];
 $(function() {
   $('#submit-trip').submit(function(event) {
     event.preventDefault();
@@ -15,4 +14,8 @@ $(function() {
     tripOne.getTrips(tripOneOrigin, departureDate);
     tripTwo.getTrips(tripTwoOrigin, departureDate);
   });
+
+  $("#outbound").click(function(event) {
+    $("#tripList").toggle();
+  })
 });

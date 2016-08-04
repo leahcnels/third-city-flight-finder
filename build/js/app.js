@@ -25,7 +25,7 @@ Trip.prototype.getTrips = function(origin, departureDate) {
 Trip.prototype.listTrips = function() {
   var self = this;
   this.tripResults.forEach(function(trip) {
-    $("#tripList").prepend('<li>' + self.origin + " to " + trip.destination + " $" + trip.price + '</li>');
+    $("#tripList").append('<li>' + self.origin + " to " + trip.destination + " $" + trip.price + '</li>');
   });
   this.compareTrips();
 };
@@ -47,7 +47,6 @@ exports.tripModule = Trip;
 var Trip = require('./../js/trip.js').tripModule;
 var apiKey = require('./../.env').apiKey;
 
-pricesArray = [];
 $(function() {
   $('#submit-trip').submit(function(event) {
     event.preventDefault();
@@ -61,6 +60,10 @@ $(function() {
     tripOne.getTrips(tripOneOrigin, departureDate);
     tripTwo.getTrips(tripTwoOrigin, departureDate);
   });
+
+  $("#outbound").click(function(event) {
+    $("#tripList").toggle();
+  })
 });
 
 },{"./../.env":1,"./../js/trip.js":2}]},{},[3]);
