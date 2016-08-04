@@ -8,12 +8,15 @@
   </head>
   <body>
     <form id="submit-trip">
-      <label for="origin">Enter origin code:</label>
-      <input id="origin" type="text">
-      <label for="departure-date">Enter date of departure (YYYY-MM-DD):</label>
-      <input id="departure-date" type="text">
+      <label for="tripOneOrigin">Enter origin code:</label>
+      <input id="tripOneOrigin" type="text">
+      <label for="tripTwoOrigin">Enter origin code:</label>
+      <input id="tripTwoOrigin" type="text">
+      <label for="departureDate">Enter date of departure (YYYY-MM-DD):</label>
+      <input id="departureDate" type="text">
       <button class="btn-success" type="submit">Submit</button>
     </form>
-    <ul id="showPrice"></ul>
+    <div>TRIP ONE:<ul id="tripList"></ul></div>
+    <div>COMPARED TRIPS:<ul id="compare"></ul></div>
   </body>
 </html>

@@ -10,16 +10,36 @@ Trip = function(origin, departureDate) {
   this.tripResults = [];
 };
 
-resultsArray = [];
+Trip.prototype.listTrips = function() {
+  var self = this;
+  this.tripResults.forEach(function(trip) {
+    $("#tripList").append('<li>' + self.origin + " to " + trip.destination + " $" + trip.price + '</li>');
+  });
+};
+
 Trip.prototype.getTrips = function(origin, departureDate) {
+  var self = this;
   $.get('http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=' + origin + '&departure_date=' + departureDate + '&apikey=' + apiKey).then(function(response) {
     for (i=0; i<response.results.length; i++) {
-      resultsArray.push(response.results[i]);
+      self.tripResults.push(response.results[i]);
     }
-  }).fail(function(error) {
-    $('.showPrice').text(error.responseJSON.message);
+    console.log("inside got trips", self.tripResults.length);
+    self.listTrips();
   });
-  this.tripResults = resultsArray;
+};
+
+Trip.prototype.compareTrips = function(otherTrip) {
+  pricesArray = [];
+  for (i=0; i < this.tripResults.length; i++) {
+    for (j=0; j < otherTrip.tripResults.length; j++) {
+      if (this.tripResults[i].destination === otherTrip.tripResults[j].destination) {
+        pricesArray.push(this.tripResults[i].destination + ":" + ((parseInt(this.tripResults[i].price) + parseInt(otherTrip.tripResults[j].price)) / 2));
+      }
+    }
+  }
+  pricesArray.forEach(function(price) {
+    $("#compare").append('<li>' + price + '</li>');
+  });
 };
 
 exports.tripModule = Trip;
@@ -29,15 +49,18 @@ var Trip = require('./../js/trip.js').tripModule;
 var apiKey = require('./../.env').apiKey;
 
 $(function() {
-  $('#submit-trip').click(function(event) {
+  $('#submit-trip').submit(function(event) {
     event.preventDefault();
-    var origin = $('#origin').val();
-    var departureDate = $('#departure-date').val();
-    var newTrip = new Trip(origin, departureDate);
-    newTrip.getTrips(origin, departureDate);
-    newTrip.tripResults.forEach(function(trip) {
-      $("#showPrice").append('<li>' + trip.destination + " $" + trip.price + '</li>')
-    });
+    $("#tripOneList").empty();
+    $("#tripTwoList").empty();
+    var tripOneOrigin = $('#tripOneOrigin').val();
+    var tripTwoOrigin = $('#tripTwoOrigin').val();
+    var departureDate = $('#departureDate').val();
+    var tripOne = new Trip(tripOneOrigin, departureDate);
+    var tripTwo = new Trip(tripTwoOrigin, departureDate);
+    tripOne.getTrips(tripOneOrigin, departureDate);
+    tripTwo.getTrips(tripTwoOrigin, departureDate);
+    tripOne.compareTrips(tripTwo);
   });
 });
 

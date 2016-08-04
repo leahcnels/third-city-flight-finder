@@ -2,14 +2,17 @@ var Trip = require('./../js/trip.js').tripModule;
 var apiKey = require('./../.env').apiKey;
 
 $(function() {
-  $('#submit-trip').click(function(event) {
+  $('#submit-trip').submit(function(event) {
     event.preventDefault();
-    var origin = $('#origin').val();
-    var departureDate = $('#departure-date').val();
-    var newTrip = new Trip(origin, departureDate);
-    newTrip.getTrips(origin, departureDate);
-    newTrip.tripResults.forEach(function(trip) {
-      $("#showPrice").append('<li>' + trip.destination + " $" + trip.price + '</li>')
-    });
+    $("#tripOneList").empty();
+    $("#tripTwoList").empty();
+    var tripOneOrigin = $('#tripOneOrigin').val();
+    var tripTwoOrigin = $('#tripTwoOrigin').val();
+    var departureDate = $('#departureDate').val();
+    var tripOne = new Trip(tripOneOrigin, departureDate);
+    var tripTwo = new Trip(tripTwoOrigin, departureDate);
+    tripOne.getTrips(tripOneOrigin, departureDate);
+    tripTwo.getTrips(tripTwoOrigin, departureDate);
+    tripOne.compareTrips(tripTwo);
   });
 });
