@@ -6,36 +6,35 @@ Trip = function(origin, departureDate) {
   this.tripResults = [];
 };
 
-Trip.prototype.listTrips = function() {
-  var self = this;
-  this.tripResults.forEach(function(trip) {
-    $("#tripList").append('<li>' + self.origin + " to " + trip.destination + " $" + trip.price + '</li>');
-  });
-};
-
+allTrips = [];
 Trip.prototype.getTrips = function(origin, departureDate) {
   var self = this;
   $.get('http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=' + origin + '&departure_date=' + departureDate + '&apikey=' + apiKey).then(function(response) {
     for (i=0; i<response.results.length; i++) {
       self.tripResults.push(response.results[i]);
     }
-    console.log("inside got trips", self.tripResults.length);
+    allTrips.push(self);
     self.listTrips();
   });
 };
 
-Trip.prototype.compareTrips = function(otherTrip) {
-  pricesArray = [];
-  for (i=0; i < this.tripResults.length; i++) {
-    for (j=0; j < otherTrip.tripResults.length; j++) {
-      if (this.tripResults[i].destination === otherTrip.tripResults[j].destination) {
-        pricesArray.push(this.tripResults[i].destination + ":" + ((parseInt(this.tripResults[i].price) + parseInt(otherTrip.tripResults[j].price)) / 2));
+Trip.prototype.listTrips = function() {
+  var self = this;
+  this.tripResults.forEach(function(trip) {
+    $("#tripList").prepend('<li>' + self.origin + " to " + trip.destination + " $" + trip.price + '</li>');
+  });
+  this.compareTrips();
+};
+
+Trip.prototype.compareTrips = function() {
+  for (i=0; i<allTrips[0].tripResults.length; i++) {
+    for (j=0; j<allTrips[1].tripResults.length; j++) {
+      if (allTrips[0].tripResults[i].destination === allTrips[1].tripResults[j].destination) {
+        var averagePrice = ((parseInt(allTrips[0].tripResults[i].price) + parseInt(allTrips[1].tripResults[j].price)) / 2);
+        $("#compare").append('<li>$' + parseInt(averagePrice) + " " + allTrips[0].tripResults[i].destination + '</li>');
       }
     }
   }
-  pricesArray.forEach(function(price) {
-    $("#compare").append('<li>' + price + '</li>');
-  });
 };
 
 exports.tripModule = Trip;

@@ -1,6 +1,7 @@
 var Trip = require('./../js/trip.js').tripModule;
 var apiKey = require('./../.env').apiKey;
 
+pricesArray = [];
 $(function() {
   $('#submit-trip').submit(function(event) {
     event.preventDefault();
@@ -13,6 +14,5 @@ $(function() {
     var tripTwo = new Trip(tripTwoOrigin, departureDate);
     tripOne.getTrips(tripOneOrigin, departureDate);
     tripTwo.getTrips(tripTwoOrigin, departureDate);
-    tripOne.compareTrips(tripTwo);
   });
 });
