@@ -1,7 +1,5 @@
 # Third City Flight Finder
 
-#### This application takes two cities and finds the cheapest flight to a third city on a given date. August 3, 2016
-
 #### By Leah Nelson (inspired by Kevin VanEvery)
 
 ## Description
